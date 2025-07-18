@@ -3,16 +3,20 @@ import { getLeaderboard } from '../api/api';
 import { FaUserCircle } from 'react-icons/fa';
 import Podium from './Podium';
 import Pagination from './Pagination';
+import Loading from './Loading';
 
 const ITEMS_PER_PAGE = 10;
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const fetchLeaderboard = async () => {
+    setLoading(true);
     const res = await getLeaderboard();
     setLeaderboard(res.data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -26,10 +30,14 @@ const Leaderboard = () => {
   const endIdx = startIdx + ITEMS_PER_PAGE;
   const paginatedUsers = leaderboard.slice(startIdx, endIdx);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="w-full max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg flex flex-col gap-6 mt-6">
       <h2 className="flex justify-center mb-2">
-        <img src="public\bg.png" alt="" className="w-58" />
+        <img src="public\\bg.png" alt="" className="w-58" />
       </h2>
       <Podium users={leaderboard} />
       <ul className="divide-y divide-gray-200 bg-gray-50 rounded-lg overflow-hidden">

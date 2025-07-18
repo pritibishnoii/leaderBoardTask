@@ -32,6 +32,9 @@ importers:
       react-router-dom:
         specifier: ^7.7.0
         version: 7.7.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      rollup:
+        specifier: ^4.45.1
+        version: 4.45.1
       tailwindcss:
         specifier: ^4.1.11
         version: 4.1.11

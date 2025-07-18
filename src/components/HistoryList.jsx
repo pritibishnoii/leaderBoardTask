@@ -2,26 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { getHistory } from '../api/api';
 import Pagination from './Pagination';
 import moment from 'moment';
+import Loading from './Loading';
 
 const ITEMS_PER_PAGE = 10;
 
 const HistoryList = () => {
   const [history, setHistory] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchHistory();
   }, []);
 
   const fetchHistory = async () => {
+    setLoading(true);
     const res = await getHistory();
     setHistory(res.data);
+    setLoading(false);
   };
 
   // Pagination logic
   const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIdx = startIdx + ITEMS_PER_PAGE;
   const paginatedHistory = history.slice(startIdx, endIdx);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="w-full max-w-xl mx-auto p-6 bg-white rounded-lg shadow-md flex flex-col gap-4 mt-6">
